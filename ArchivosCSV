@@ -76,6 +76,11 @@ BEGIN
         RETURN;
     END CATCH
 
+    -- Verificar y corregir datos incompletos o erróneos
+    UPDATE #CSV_AUX
+    SET NOMBRE = LTRIM(RTRIM(NOMBRE)),
+    DIRECCION = (DIRECCION + ', ' + LOCALIDAD + ', ' + PROVINCIA)
+
 	-- Insertar nuevos prestadores si no existen
     INSERT INTO sede.Sede (Nombre, Direccion)
     SELECT DISTINCT NOMBRE, DIRECCION
